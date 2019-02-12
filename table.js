@@ -2,12 +2,13 @@
 function Tab(btn_selector , content_selector){
     //写属性，显示当前下标
     this.index=0;
-    this.btns=document.querySelectorAll(".button-wrap button");
-    this.contents=document.querySelectorAll(".content-box")
+    this.btns=document.querySelectorAll(btn_selector);
+    this.contents=document.querySelectorAll(content_selector)
 }
 //初始化功能
-Tab.prototype.init=function(){
+Tab.prototype.init=function(event_type){
     //调用最核心的方法
+    this.event_type=event_type ? event_type : "click";
     this.btns=Array.from(this.btns);
     this.contents=Array.from(this.contents)
     this.bindEvent()
@@ -16,8 +17,8 @@ Tab.prototype.init=function(){
 //绑定时间的功能
 Tab.prototype.bindEvent=function(){
      this.btns.forEach((item,index)=>{
-         item.addEventListener("click",this.changeIndex.bind(this,index));
-         item.addEventListener("click",this.changeClass.bind(this))
+         item.addEventListener(this.event_type,this.changeIndex.bind(this,index));
+         item.addEventListener(this.event_type,this.changeClass.bind(this))
      })
 }
 //改变下标的功能
@@ -37,5 +38,5 @@ Tab.prototype.changeClass=function(){
     this.btns[this.index].className+=" active"
 
 }
-var tab=new Tab();
-tab.init()
+var tab=new Tab(".button-wrap button",".content-box");
+tab.init("mouseenter")
